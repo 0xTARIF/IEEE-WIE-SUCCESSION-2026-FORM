@@ -36,8 +36,8 @@ export default function RegisterPage() {
   });
   const [status, setStatus] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle');
 
-  // Your Web App URL from Google Apps Script
-  const GOOGLE_APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycby57jY5GjV2F0DLIna0GpbnaQ2me4sg_r3jRZJpQcYUzLu2voogNhsj_wVaywVXrw/exec";
+  // Updated Version 4 Google Apps Script Web App URL
+  const GOOGLE_APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyvbZznSqJLUv3vfPSvKPcx6Ij0HFWhAKIDTN06jMJDHcEXfL__JecluNPXeM2-hUxL/exec";
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -55,11 +55,7 @@ export default function RegisterPage() {
     };
 
     try {
-      // 1. Save locally in browser LocalStorage
-      const existing = JSON.parse(localStorage.getItem('alumni_rsvp_responses') || '[]');
-      localStorage.setItem('alumni_rsvp_responses', JSON.stringify([...existing, newResponse]));
-
-      // 2. Send to Google Sheet
+      // Send directly to Google Sheet
       await fetch(GOOGLE_APPS_SCRIPT_URL, {
         method: 'POST',
         mode: 'no-cors',
@@ -76,7 +72,7 @@ export default function RegisterPage() {
 
       setStatus('success');
     } catch (err) {
-      console.error(err);
+      console.error("Submission error:", err);
       setStatus('error');
     }
   };

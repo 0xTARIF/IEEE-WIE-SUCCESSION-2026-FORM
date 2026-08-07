@@ -4,7 +4,6 @@ import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 
 interface RSVPResponse {
-  id: number;
   name: string;
   email: string;
   gradYear: string;
@@ -17,13 +16,31 @@ export default function SecretResponsesPage() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [error, setError] = useState('');
   const [responses, setResponses] = useState<RSVPResponse[]>([]);
+  const [loading, setLoading] = useState(false);
 
   const ADMIN_PASSWORD = "wie2026";
+  
+  // Updated Version 4 Google Apps Script Web App URL
+  const GOOGLE_APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyvbZznSqJLUv3vfPSvKPcx6Ij0HFWhAKIDTN06jMJDHcEXfL__JecluNPXeM2-hUxL/exec";
+
+  const fetchResponses = async () => {
+    setLoading(true);
+    try {
+      const res = await fetch(GOOGLE_APPS_SCRIPT_URL);
+      const data = await res.json();
+      if (Array.isArray(data)) {
+        setResponses(data.reverse()); // Show newest submissions first
+      }
+    } catch (err) {
+      console.error("Error fetching live responses:", err);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
     if (isAuthenticated) {
-      const stored = JSON.parse(localStorage.getItem('alumni_rsvp_responses') || '[]');
-      setResponses(stored);
+      fetchResponses();
     }
   }, [isAuthenticated]);
 
@@ -70,16 +87,29 @@ export default function SecretResponsesPage() {
   return (
     <div className="min-h-screen bg-[#FAF8FC] text-[#1A1A1A] p-6 font-sans">
       <div className="max-w-5xl mx-auto">
-        <div className="mb-6">
-          <Link href="/" className="text-xs font-black text-[#6A2874] hover:underline block mb-1">
-            ← Main Website
-          </Link>
-          <h1 className="text-3xl font-black text-[#006699] uppercase">Local RSVP Responses ({responses.length})</h1>
+        <div className="flex justify-between items-center mb-6">
+          <div>
+            <Link href="/" className="text-xs font-black text-[#6A2874] hover:underline block mb-1">
+              ← Main Website
+            </Link>
+            <h1 className="text-3xl font-black text-[#006699] uppercase">Global Live Responses ({responses.length})</h1>
+          </div>
+          <button 
+            onClick={fetchResponses}
+            disabled={loading}
+            className="px-4 py-2 bg-[#6A2874] text-white font-black text-xs uppercase rounded-xl border-2 border-black shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] cursor-pointer"
+          >
+            {loading ? 'Refreshing...' : '🔄 Refresh Data'}
+          </button>
         </div>
 
-        {responses.length === 0 ? (
+        {loading ? (
           <div className="bg-white border-3 border-black rounded-2xl p-8 text-center font-bold text-gray-500">
-            No local responses saved yet.
+            Fetching latest submissions from Google Sheets...
+          </div>
+        ) : responses.length === 0 ? (
+          <div className="bg-white border-3 border-black rounded-2xl p-8 text-center font-bold text-gray-500">
+            No responses recorded yet.
           </div>
         ) : (
           <div className="bg-white border-3 border-black rounded-2xl overflow-hidden shadow-[6px_6px_0px_0px_rgba(0,0,0,1)]">
@@ -100,11 +130,13 @@ export default function SecretResponsesPage() {
                     <td className="p-3 text-gray-600">{item.email}</td>
                     <td className="p-3 text-gray-600">{item.gradYear}</td>
                     <td className="p-3">
-                      <span className={`inline-block px-2 py-0.5 rounded-md text-xs font-black border border-black ${item.attending.includes('Yes') ? 'bg-green-200 text-green-900' : 'bg-red-200 text-red-900'}`}>
+                      <span className={`inline-block px-2 py-0.5 rounded-md text-xs font-black border border-black ${String(item.attending).includes('Yes') ? 'bg-green-200 text-green-900' : 'bg-red-200 text-red-900'}`}>
                         {item.attending}
                       </span>
                     </td>
-                    <td className="p-3 text-xs text-gray-400">{item.timestamp}</td>
+                    <td className="p-3 text-xs text-gray-400">
+                      {new Date(item.timestamp).toLocaleString()}
+                    </td>
                   </tr>
                 ))}
               </tbody>
