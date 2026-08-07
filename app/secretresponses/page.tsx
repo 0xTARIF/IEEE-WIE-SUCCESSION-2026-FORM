@@ -22,7 +22,7 @@ export default function SecretResponsesPage() {
   const [responses, setResponses] = useState<RSVPResponse[]>([]);
   const [loading, setLoading] = useState(false);
 
-  const ADMIN_PASSWORD = "wie2025";
+  const ADMIN_PASSWORD = "wie2026";
 
   // Dynamic fetch function based on whichever tab is currently selected
   const fetchResponses = useCallback(async (tab: 'guests' | 'general') => {
