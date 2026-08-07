@@ -36,8 +36,8 @@ export default function RegisterPage() {
   });
   const [status, setStatus] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle');
 
-  // Updated Version 4 Google Apps Script Web App URL
-  const GOOGLE_APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyvbZznSqJLUv3vfPSvKPcx6Ij0HFWhAKIDTN06jMJDHcEXfL__JecluNPXeM2-hUxL/exec";
+  // Exact Web App URL
+  const GOOGLE_APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwMJPX36eSIjD45mdFpmjhipx-76bE-dLBnC-vOD5fE69sL1leLKZAjDK1SzXgV95IL/exec";
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -45,22 +45,21 @@ export default function RegisterPage() {
 
     setStatus('submitting');
 
-    const newResponse = {
-      id: Date.now(),
+    const payload = {
       name: formData.name,
       email: formData.email || 'N/A',
       gradYear: formData.gradYear || 'N/A',
       attending: formData.attending,
-      timestamp: new Date().toLocaleString(),
     };
 
     try {
-      // Send directly to Google Sheet
       await fetch(GOOGLE_APPS_SCRIPT_URL, {
         method: 'POST',
         mode: 'no-cors',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(newResponse),
+        headers: {
+          'Content-Type': 'text/plain;charset=utf-8',
+        },
+        body: JSON.stringify(payload),
       });
 
       confetti({

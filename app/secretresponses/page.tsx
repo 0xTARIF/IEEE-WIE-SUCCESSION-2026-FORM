@@ -20,8 +20,8 @@ export default function SecretResponsesPage() {
 
   const ADMIN_PASSWORD = "wie2026";
   
-  // Updated Version 4 Google Apps Script Web App URL
-  const GOOGLE_APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyvbZznSqJLUv3vfPSvKPcx6Ij0HFWhAKIDTN06jMJDHcEXfL__JecluNPXeM2-hUxL/exec";
+  // Exact Web App URL
+  const GOOGLE_APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwMJPX36eSIjD45mdFpmjhipx-76bE-dLBnC-vOD5fE69sL1leLKZAjDK1SzXgV95IL/exec";
 
   const fetchResponses = async () => {
     setLoading(true);
@@ -135,7 +135,7 @@ export default function SecretResponsesPage() {
                       </span>
                     </td>
                     <td className="p-3 text-xs text-gray-400">
-                      {new Date(item.timestamp).toLocaleString()}
+                      {item.timestamp ? new Date(item.timestamp).toLocaleString() : 'N/A'}
                     </td>
                   </tr>
                 ))}
