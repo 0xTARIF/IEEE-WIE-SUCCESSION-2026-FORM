@@ -10,10 +10,10 @@ export default function LandingPage() {
   const mouseX = useMotionValue(0);
   const mouseY = useMotionValue(0);
 
-  const moveX = useTransform(mouseX, [-500, 500], [-25, 25]);
-  const moveY = useTransform(mouseY, [-500, 500], [-25, 25]);
-  const reverseX = useTransform(mouseX, [-500, 500], [25, -25]);
-  const reverseY = useTransform(mouseY, [-500, 500], [25, -25]);
+  const moveX = useTransform(mouseX, [-500, 500], [-20, 20]);
+  const moveY = useTransform(mouseY, [-500, 500], [-20, 20]);
+  const reverseX = useTransform(mouseX, [-500, 500], [20, -20]);
+  const reverseY = useTransform(mouseY, [-500, 500], [20, -20]);
 
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
@@ -28,114 +28,131 @@ export default function LandingPage() {
   }, [mouseX, mouseY]);
 
   return (
-    <div className="min-h-screen bg-[radial-gradient(circle_at_50%_20%,_#3B1B63_0%,_#180B2B_70%,_#0D051A_100%)] text-white font-sans flex flex-col justify-between overflow-hidden relative selection:bg-[#6A2874] selection:text-white">
+    <div className="min-h-screen bg-gradient-to-b from-[#F3EEF8] via-[#E8DEF2] to-[#F3EEF8] text-[#1A1A1A] font-sans flex flex-col justify-between overflow-hidden relative selection:bg-[#6A2874] selection:text-white">
       
       {/* ================= GRAINY SVG NOISE OVERLAY ================= */}
       <div 
-        className="absolute inset-0 pointer-events-none z-0 opacity-20 mix-blend-overlay"
+        className="absolute inset-0 pointer-events-none z-0 opacity-25 mix-blend-overlay"
         style={{
           backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")`
         }}
       />
 
-      {/* ================= DYNAMIC COSMIC BACKGROUND ANIMATIONS ================= */}
-      <div className="absolute inset-0 pointer-events-none overflow-hidden z-0">
+      {/* ================= LIGHT PURPLE GRAIN & DOODLE COSMIC ANIMATIONS ================= */}
+      <div className="absolute inset-0 pointer-events-none overflow-hidden z-0 opacity-60">
         
-        {/* Ambient Purple Nebulae */}
-        <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-[#6A2874]/30 rounded-full blur-[140px]" />
-        <div className="absolute bottom-10 right-10 w-[400px] h-[400px] bg-[#006699]/20 rounded-full blur-[120px]" />
+        {/* Soft Ambient Light Nebulae */}
+        <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-[#6A2874]/15 rounded-full blur-[140px]" />
+        <div className="absolute bottom-10 right-10 w-[400px] h-[400px] bg-[#006699]/15 rounded-full blur-[120px]" />
 
-        {/* Twinkling Stars */}
+        {/* Twinkling Doodled Stars */}
         {[...Array(18)].map((_, i) => (
           <motion.div
             key={i}
-            animate={{ opacity: [0.2, 1, 0.2], scale: [0.7, 1.3, 0.7] }}
+            animate={{ opacity: [0.3, 1, 0.3], scale: [0.8, 1.2, 0.8] }}
             transition={{ duration: 2 + (i % 3), repeat: Infinity, ease: "easeInOut", delay: i * 0.2 }}
             style={{
               top: `${(i * 17) % 92}%`,
               left: `${(i * 23) % 96}%`,
             }}
-            className="absolute text-purple-200 font-bold"
+            className="absolute text-[#6A2874] font-bold text-lg select-none"
           >
             ✦
           </motion.div>
         ))}
 
-        {/* Floating Moon */}
+        {/* Doodled Pencil Sketch Crescent Moon */}
         <motion.div 
           style={{ x: reverseX, y: reverseY }}
-          animate={{ rotate: [-4, 4, -4] }}
-          transition={{ duration: 9, repeat: Infinity, ease: "easeInOut" }}
-          className="absolute top-10 right-6 sm:right-16 opacity-40"
+          animate={{ rotate: [-3, 3, -3] }}
+          transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
+          className="absolute top-10 right-6 sm:right-16 opacity-50"
         >
-          <svg className="w-20 h-20 sm:w-28 sm:h-28 text-purple-200" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+          <svg className="w-20 h-20 sm:w-28 sm:h-28 text-[#6A2874]" fill="none" stroke="currentColor" strokeWidth="2.5" strokeDasharray="6 2" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24">
+            <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z" />
           </svg>
         </motion.div>
 
-        {/* Orbiting Space Station */}
+        {/* Doodled Pencil Sketch Orbiting Satellite */}
         <motion.div 
           style={{ x: moveX, y: moveY }}
-          animate={{ y: [0, -12, 0], rotate: [-2, 2, -2] }}
-          transition={{ duration: 7, repeat: Infinity, ease: "easeInOut" }}
-          className="absolute top-12 left-6 sm:left-16 opacity-30"
+          animate={{ y: [0, -10, 0], rotate: [-2, 2, -2] }}
+          transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
+          className="absolute top-12 left-6 sm:left-16 opacity-40"
         >
-          <svg className="w-20 h-20 sm:w-28 sm:h-28 text-purple-300" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" d="M19 11H5m14 0a2 2 0 012 2v2a2 2 0 01-2 2H5a2 2 0 01-2-2v-2a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+          <svg className="w-20 h-20 sm:w-24 sm:h-24 text-[#006699]" fill="none" stroke="currentColor" strokeWidth="2" strokeDasharray="4 2" strokeLinecap="round" viewBox="0 0 24 24">
+            <path d="M12 2v4m0 12v4M2 12h4m12 0h4m-3.5-6.5l-2.8 2.8m-7.4 7.4l-2.8 2.8m0-13l2.8 2.8m7.4 7.4l2.8 2.8" />
+            <circle cx="12" cy="12" r="4" strokeWidth="2.5" />
           </svg>
         </motion.div>
 
-        {/* ROAMING ROCKET 1 (Floating diagonally across the bottom left) */}
+        {/* ROAMING DOODLE ROCKET 1 (Floating diagonally across the screen) */}
         <motion.div
           animate={{
             x: ['-10vw', '110vw'],
             y: ['80vh', '20vh'],
-            rotate: [-30, -35, -25]
+            rotate: [-35, -40, -30]
           }}
           transition={{
-            duration: 18,
+            duration: 20,
             repeat: Infinity,
             ease: "linear",
             delay: 0
           }}
-          className="absolute z-10 pointer-events-none opacity-80"
+          className="absolute z-10 pointer-events-none opacity-70"
         >
           <div className="relative">
-            <svg className="w-16 h-16 sm:w-20 sm:h-20 text-purple-300 drop-shadow-[0_0_12px_rgba(168,85,247,0.7)]" fill="currentColor" viewBox="0 0 24 24">
-              <path d="M13.13 2.21a1 1 0 0 0-1.26 0C8.5 4.81 6 9.5 6 14c0 1.93.58 3.5 1.5 4.75l-2.2 2.2a1 1 0 0 0 1.41 1.41l2.84-2.84c.78.3 1.61.48 2.45.48s1.67-.18 2.45-.48l2.84 2.84a1 1 0 0 0 1.41-1.41l-2.2-2.2c.92-1.25 1.5-2.82 1.5-4.75 0-4.5-2.5-9.19-5.87-11.79zM12 15a2 2 0 1 1 0-4 2 2 0 0 1 0 4z"/>
+            {/* Hand-Drawn / Doodled Pencil Rocket SVG */}
+            <svg className="w-16 h-16 sm:w-20 sm:h-20 text-[#6A2874]" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24">
+              {/* Rocket Body */}
+              <path d="M4.5 16.5c-1.5 1.5-1.5 3.5-1.5 3.5s2 0 3.5-1.5c.75-.75 2.5-3 2.5-3l-4.5-4.5s-2.25 1.75-3 2.5z" />
+              <path d="M12 15l-3-3s3.5-6 8.5-9c0 0 .5 5-2.5 8.5l-3 3.5z" strokeWidth="2.5" strokeDasharray="8 1" />
+              {/* Porthole Window */}
+              <circle cx="14.5" cy="9.5" r="1.5" strokeWidth="2" />
+              {/* Fins */}
+              <path d="M9 12l-2 3M12 9l3-2" strokeWidth="2" />
             </svg>
+            
+            {/* Doodled Flame Trail */}
             <motion.div 
-              animate={{ scale: [0.8, 1.4, 0.8] }}
+              animate={{ scale: [0.8, 1.3, 0.8], opacity: [0.6, 1, 0.6] }}
               transition={{ duration: 0.3, repeat: Infinity }}
-              className="absolute -bottom-4 left-4 w-6 h-10 bg-gradient-to-b from-yellow-300 via-orange-400 to-transparent rounded-full blur-xs -z-10"
-            />
+              className="absolute -bottom-3 left-2 text-[#FFC72C] font-black text-sm select-none"
+            >
+              ⌇⌇⌇
+            </motion.div>
           </div>
         </motion.div>
 
-        {/* ROAMING ROCKET 2 (Drifting horizontally across the top right) */}
+        {/* ROAMING DOODLE ROCKET 2 (Drifting horizontally top right) */}
         <motion.div
           animate={{
             x: ['110vw', '-10vw'],
-            y: ['15vh', '45vh'],
-            rotate: [120, 130, 125]
+            y: ['15vh', '50vh'],
+            rotate: [125, 135, 130]
           }}
           transition={{
-            duration: 24,
+            duration: 25,
             repeat: Infinity,
             ease: "linear",
-            delay: 6
+            delay: 7
           }}
           className="absolute z-10 pointer-events-none opacity-60"
         >
           <div className="relative">
-            <svg className="w-14 h-14 sm:w-16 sm:h-16 text-cyan-300 drop-shadow-[0_0_10px_rgba(6,182,212,0.6)]" fill="currentColor" viewBox="0 0 24 24">
-              <path d="M13.13 2.21a1 1 0 0 0-1.26 0C8.5 4.81 6 9.5 6 14c0 1.93.58 3.5 1.5 4.75l-2.2 2.2a1 1 0 0 0 1.41 1.41l2.84-2.84c.78.3 1.61.48 2.45.48s1.67-.18 2.45-.48l2.84 2.84a1 1 0 0 0 1.41-1.41l-2.2-2.2c.92-1.25 1.5-2.82 1.5-4.75 0-4.5-2.5-9.19-5.87-11.79zM12 15a2 2 0 1 1 0-4 2 2 0 0 1 0 4z"/>
+            {/* Hand-Drawn / Doodled Pencil Rocket SVG */}
+            <svg className="w-14 h-14 sm:w-16 sm:h-16 text-[#006699]" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24">
+              <path d="M4.5 16.5c-1.5 1.5-1.5 3.5-1.5 3.5s2 0 3.5-1.5c.75-.75 2.5-3 2.5-3l-4.5-4.5s-2.25 1.75-3 2.5z" />
+              <path d="M12 15l-3-3s3.5-6 8.5-9c0 0 .5 5-2.5 8.5l-3 3.5z" strokeWidth="2.5" strokeDasharray="6 1" />
+              <circle cx="14.5" cy="9.5" r="1.5" strokeWidth="2" />
             </svg>
             <motion.div 
               animate={{ scale: [0.8, 1.3, 0.8] }}
               transition={{ duration: 0.3, repeat: Infinity }}
-              className="absolute -bottom-3 left-3 w-5 h-8 bg-gradient-to-b from-cyan-300 via-blue-500 to-transparent rounded-full blur-xs -z-10"
-            />
+              className="absolute -bottom-2 left-2 text-orange-400 font-black text-xs select-none"
+            >
+              ⌇⌇
+            </motion.div>
           </div>
         </motion.div>
 
@@ -157,11 +174,11 @@ export default function LandingPage() {
             IEEE NSU SB WIE Affinity Group
           </span>
           
-          <h1 className="text-4xl sm:text-6xl font-black tracking-wider leading-none uppercase text-purple-200 drop-shadow-[0_0_12px_rgba(232,222,242,0.6)]">
+          <h1 className="text-4xl sm:text-6xl font-black tracking-wider leading-none uppercase text-[#6A2874] drop-shadow-[2px_2px_0px_rgba(0,0,0,1)]">
             SUCCESSION 2026
           </h1>
           
-          <p className="font-extrabold text-sm sm:text-lg mt-3 max-w-2xl mx-auto leading-snug text-purple-100">
+          <p className="font-extrabold text-sm sm:text-lg mt-3 max-w-2xl mx-auto leading-snug text-gray-800">
             Celebrating Leadership Transitions, Honoring Alumni Legacy & Inspiring Future Engineers
           </p>
         </div>
@@ -237,11 +254,11 @@ export default function LandingPage() {
 
       {/* Footer */}
       <footer className="w-full py-6 px-6 text-center relative z-10 max-w-5xl mx-auto flex flex-col items-center gap-1.5">
-        <p className="text-xs font-extrabold uppercase tracking-wider text-purple-200">
+        <p className="text-xs font-extrabold uppercase tracking-wider text-gray-700">
           © 2026 IEEE NSU SB WIE AG. All Rights Reserved.
         </p>
-        <p className="text-[11px] font-black uppercase tracking-widest text-purple-300/80 bg-[#180B2B]/60 px-4 py-1.5 rounded-full border border-purple-500/30 backdrop-blur-sm shadow-[2px_2px_0px_0px_rgba(0,0,0,0.5)]">
-          Maintained by <span className="text-amber-300 font-extrabold">IEEE NSU STUDENT BRANCH WEBSITE DEVELOPMENT TEAM</span>
+        <p className="text-[11px] font-black uppercase tracking-widest text-[#6A2874] bg-white/80 px-4 py-1.5 rounded-full border-2 border-black shadow-[3px_3px_0px_0px_rgba(0,0,0,1)]">
+          Maintained by <span className="text-[#006699] font-black">IEEE NSU STUDENT BRANCH WEBSITE DEVELOPMENT TEAM</span>
         </p>
       </footer>
 
