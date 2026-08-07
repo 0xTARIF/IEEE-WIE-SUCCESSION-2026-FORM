@@ -42,7 +42,7 @@ export default function RegisterPage() {
   const [status, setStatus] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle');
 
   // Replace with your General Members Google Apps Script Web App URL once deployed
-  const GENERAL_MEMBER_SCRIPT_URL = "YOUR_GENERAL_MEMBER_APPS_SCRIPT_URL_HERE";
+  const GENERAL_MEMBER_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwotCtakz5FHCMeO1KvxbcJ8rrbm9XWphJxnBATXWZ0FCG4uchGuigJt2p9Ajb-hfAl6g/exec";
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
