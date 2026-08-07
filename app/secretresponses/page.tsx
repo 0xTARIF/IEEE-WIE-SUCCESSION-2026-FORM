@@ -24,12 +24,22 @@ export default function SecretResponsesPage() {
 
   const ADMIN_PASSWORD = "wie2026";
 
-  // Dynamic fetch function based on whichever tab is currently selected
+  // Exact Google Apps Script URLs
+  const GUESTS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwMJPX36eSIjD45mdFpmjhipx-76bE-dLBnC-vOD5fE69sL1leLKZAjDK1SzXgV95IL/exec";
+  const GENERAL_SCRIPT_URL = ""; // General members macro URL (leave blank for now)
+
   const fetchResponses = useCallback(async (tab: 'guests' | 'general') => {
+    const targetUrl = tab === 'guests' ? GUESTS_SCRIPT_URL : GENERAL_SCRIPT_URL;
+
+    if (!targetUrl) {
+      setResponses([]);
+      return;
+    }
+
     setLoading(true);
     try {
-      // Append cache buster t= timestamp to guarantee fresh fetch on every refresh/switch
-      const res = await fetch(`/api/responses?type=${tab}&t=${Date.now()}`);
+      // Append timestamp query parameter to bypass browser caching
+      const res = await fetch(`${targetUrl}?t=${Date.now()}`);
       const data = await res.json();
 
       if (Array.isArray(data)) {
@@ -45,7 +55,6 @@ export default function SecretResponsesPage() {
     }
   }, []);
 
-  // Trigger data fetch automatically whenever authentication succeeds or tab switches
   useEffect(() => {
     if (isAuthenticated) {
       fetchResponses(activeTab);
@@ -115,7 +124,7 @@ export default function SecretResponsesPage() {
           </button>
         </div>
 
-        {/* Tab Selection Buttons */}
+        {/* Tab Switcher */}
         <div className="flex gap-3 mb-6">
           <button
             onClick={() => setActiveTab('guests')}
@@ -140,10 +149,10 @@ export default function SecretResponsesPage() {
           </button>
         </div>
 
-        {/* DATA DISPLAY AREA */}
+        {/* Table / Loading Card */}
         {loading ? (
           <div className="bg-white border-3 border-black rounded-2xl p-8 text-center font-bold text-gray-500 shadow-[6px_6px_0px_0px_rgba(0,0,0,1)]">
-            Fetching {activeTab === 'guests' ? 'Guest / Alumni' : 'General Member'} responses from Google Sheets...
+            Fetching {activeTab === 'guests' ? 'Guest / Alumni' : 'General Member'} responses...
           </div>
         ) : responses.length === 0 ? (
           <div className="bg-white border-3 border-black rounded-2xl p-8 text-center font-bold text-gray-500 shadow-[6px_6px_0px_0px_rgba(0,0,0,1)]">
