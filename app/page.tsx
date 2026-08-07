@@ -218,7 +218,7 @@ export default function LandingPage() {
             </div>
             
             <Link 
-              href="/register" 
+              href="/alumni" 
               className="w-full py-3.5 bg-[#6A2874] hover:bg-[#006699] text-white font-black text-xs uppercase tracking-wider rounded-xl border-3 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-none hover:translate-x-1 hover:translate-y-1 transition-all block text-center"
             >
               Confirm Alumni RSVP →
@@ -241,7 +241,7 @@ export default function LandingPage() {
             </div>
 
             <Link 
-              href="" 
+              href="/register" 
               className="w-full py-3.5 bg-[#006699] hover:bg-[#6A2874] text-white font-black text-xs uppercase tracking-wider rounded-xl border-3 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-none hover:translate-x-1 hover:translate-y-1 transition-all block text-center"
             >
               Member Registration →
