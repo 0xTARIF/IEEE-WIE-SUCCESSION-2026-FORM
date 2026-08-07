@@ -102,33 +102,33 @@ export default function SecretResponsesPage() {
   }
 
   return (
-    <div className="min-h-screen bg-[#FAF8FC] text-[#1A1A1A] p-6 font-sans">
+    <div className="min-h-screen bg-[#FAF8FC] text-[#1A1A1A] p-4 sm:p-6 font-sans">
       <div className="max-w-5xl mx-auto">
         
         {/* Header & Refresh Controls */}
-        <div className="flex justify-between items-center mb-6">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
           <div>
             <Link href="/" className="text-xs font-black text-[#6A2874] hover:underline block mb-1">
               ← Main Website
             </Link>
-            <h1 className="text-3xl font-black text-[#006699] uppercase">
+            <h1 className="text-2xl sm:text-3xl font-black text-[#006699] uppercase leading-tight">
               {activeTab === 'guests' ? 'Guest / Alumni Responses' : 'General Member Responses'} ({responses.length})
             </h1>
           </div>
           <button 
             onClick={() => fetchResponses(activeTab)}
             disabled={loading}
-            className="px-4 py-2 bg-[#6A2874] hover:bg-[#006699] text-white font-black text-xs uppercase rounded-xl border-2 border-black shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] cursor-pointer transition-all disabled:opacity-50"
+            className="self-start sm:self-auto px-4 py-2.5 bg-[#6A2874] hover:bg-[#006699] text-white font-black text-xs uppercase rounded-xl border-2 border-black shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] cursor-pointer transition-all disabled:opacity-50"
           >
             {loading ? 'Refreshing...' : '🔄 Refresh Data'}
           </button>
         </div>
 
         {/* Tab Switcher */}
-        <div className="flex gap-3 mb-6">
+        <div className="flex gap-2 sm:gap-3 mb-6">
           <button
             onClick={() => setActiveTab('guests')}
-            className={`px-5 py-2.5 rounded-xl border-3 border-black font-black text-xs uppercase tracking-wider transition-all cursor-pointer ${
+            className={`px-4 sm:px-5 py-2.5 rounded-xl border-3 border-black font-black text-xs uppercase tracking-wider transition-all cursor-pointer ${
               activeTab === 'guests'
                 ? 'bg-[#6A2874] text-white shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]'
                 : 'bg-white text-black hover:bg-purple-50 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]'
@@ -139,7 +139,7 @@ export default function SecretResponsesPage() {
 
           <button
             onClick={() => setActiveTab('general')}
-            className={`px-5 py-2.5 rounded-xl border-3 border-black font-black text-xs uppercase tracking-wider transition-all cursor-pointer ${
+            className={`px-4 sm:px-5 py-2.5 rounded-xl border-3 border-black font-black text-xs uppercase tracking-wider transition-all cursor-pointer ${
               activeTab === 'general'
                 ? 'bg-[#006699] text-white shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]'
                 : 'bg-white text-black hover:bg-blue-50 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]'
@@ -161,35 +161,40 @@ export default function SecretResponsesPage() {
               : 'No general member responses recorded yet (General Endpoint Pending).'}
           </div>
         ) : (
-          <div className="bg-white border-3 border-black rounded-2xl overflow-hidden shadow-[6px_6px_0px_0px_rgba(0,0,0,1)]">
-            <table className="w-full text-left border-collapse text-sm">
-              <thead>
-                <tr className="bg-[#6A2874] text-white border-b-2 border-black">
-                  <th className="p-3 font-black uppercase text-xs">Name</th>
-                  <th className="p-3 font-black uppercase text-xs">Email</th>
-                  <th className="p-3 font-black uppercase text-xs">Batch</th>
-                  <th className="p-3 font-black uppercase text-xs">Attending</th>
-                  <th className="p-3 font-black uppercase text-xs">Time</th>
-                </tr>
-              </thead>
-              <tbody>
-                {responses.map((item, idx) => (
-                  <tr key={idx} className="border-b border-gray-200 hover:bg-purple-50 font-bold">
-                    <td className="p-3 text-black">{item.name}</td>
-                    <td className="p-3 text-gray-600">{item.email}</td>
-                    <td className="p-3 text-gray-600">{item.gradYear}</td>
-                    <td className="p-3">
-                      <span className={`inline-block px-2 py-0.5 rounded-md text-xs font-black border border-black ${String(item.attending).includes('Yes') ? 'bg-green-200 text-green-900' : 'bg-red-200 text-red-900'}`}>
-                        {item.attending}
-                      </span>
-                    </td>
-                    <td className="p-3 text-xs text-gray-400">
-                      {item.timestamp ? new Date(item.timestamp).toLocaleString() : 'N/A'}
-                    </td>
+          <div className="bg-white border-3 border-black rounded-2xl shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] overflow-hidden">
+            
+            {/* HORIZONTAL SCROLL CONTAINER FOR MOBILE RESPONSIVENESS */}
+            <div className="overflow-x-auto w-full scrollbar-thin">
+              <table className="w-full text-left border-collapse text-sm min-w-[600px]">
+                <thead>
+                  <tr className="bg-[#6A2874] text-white border-b-2 border-black whitespace-nowrap">
+                    <th className="p-3 font-black uppercase text-xs">Name</th>
+                    <th className="p-3 font-black uppercase text-xs">Email</th>
+                    <th className="p-3 font-black uppercase text-xs">Batch</th>
+                    <th className="p-3 font-black uppercase text-xs">Attending</th>
+                    <th className="p-3 font-black uppercase text-xs">Time</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
+                </thead>
+                <tbody>
+                  {responses.map((item, idx) => (
+                    <tr key={idx} className="border-b border-gray-200 hover:bg-purple-50 font-bold">
+                      <td className="p-3 text-black whitespace-nowrap">{item.name}</td>
+                      <td className="p-3 text-gray-600 whitespace-nowrap">{item.email}</td>
+                      <td className="p-3 text-gray-600 whitespace-nowrap">{item.gradYear}</td>
+                      <td className="p-3 whitespace-nowrap">
+                        <span className={`inline-block px-2 py-0.5 rounded-md text-xs font-black border border-black ${String(item.attending).includes('Yes') ? 'bg-green-200 text-green-900' : 'bg-red-200 text-red-900'}`}>
+                          {item.attending}
+                        </span>
+                      </td>
+                      <td className="p-3 text-xs text-gray-400 whitespace-nowrap">
+                        {item.timestamp ? new Date(item.timestamp).toLocaleString() : 'N/A'}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+
           </div>
         )}
 
