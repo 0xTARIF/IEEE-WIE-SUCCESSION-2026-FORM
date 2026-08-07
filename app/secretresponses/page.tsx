@@ -22,7 +22,7 @@ export default function SecretResponsesPage() {
   const [guestResponses, setGuestResponses] = useState<RSVPResponse[]>([]);
   const [loading, setLoading] = useState(false);
 
-  const ADMIN_PASSWORD = "wie2025";
+  const ADMIN_PASSWORD = "wie2026";
 
   const fetchResponses = async () => {
     setLoading(true);
