@@ -201,7 +201,7 @@ export default function LandingPage() {
             </div>
             
             <Link 
-              href="" {/*For later */}
+              href="" 
               className="w-full py-3.5 bg-[#6A2874] hover:bg-[#006699] text-white font-black text-xs uppercase tracking-wider rounded-xl border-3 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-none hover:translate-x-1 hover:translate-y-1 transition-all block text-center"
             >
               Confirm Alumni RSVP →
@@ -236,9 +236,12 @@ export default function LandingPage() {
       </main>
 
       {/* Footer */}
-      <footer className="w-full py-4 px-6 text-center relative z-10 max-w-5xl mx-auto">
+      <footer className="w-full py-6 px-6 text-center relative z-10 max-w-5xl mx-auto flex flex-col items-center gap-1.5">
         <p className="text-xs font-extrabold uppercase tracking-wider text-purple-200">
           © 2026 IEEE NSU SB WIE AG. All Rights Reserved.
+        </p>
+        <p className="text-[11px] font-black uppercase tracking-widest text-purple-300/80 bg-[#180B2B]/60 px-4 py-1.5 rounded-full border border-purple-500/30 backdrop-blur-sm shadow-[2px_2px_0px_0px_rgba(0,0,0,0.5)]">
+          Maintained by <span className="text-amber-300 font-extrabold">IEEE NSU STUDENT BRANCH WEBSITE DEVELOPMENT TEAM</span>
         </p>
       </footer>
 
