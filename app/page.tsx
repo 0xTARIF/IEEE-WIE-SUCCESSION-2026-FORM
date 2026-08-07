@@ -2,32 +2,20 @@
 
 import React, { useEffect } from 'react';
 import Image from 'next/image';
+import Link from 'next/link';
 import { motion, useMotionValue, useTransform } from 'framer-motion';
-import confetti from 'canvas-confetti';
 
-export default function AlumniRSVPPage() {
-  const GOOGLE_FORM_EMBED_URL = "https://docs.google.com/forms/d/e/1FAIpQLSc0pn-XtE4I4rnZg0h5Sdb92C--a2Px08BnkD2afqEt6SNGUQ/viewform?embedded=true";
-
-  // Mouse position hooks for interactive background parallax
+export default function LandingPage() {
+  // Parallax cursor tracking
   const mouseX = useMotionValue(0);
   const mouseY = useMotionValue(0);
 
-  // Smooth transforms for interactive parallax shifts
-  const moveX = useTransform(mouseX, [-500, 500], [-30, 30]);
-  const moveY = useTransform(mouseY, [-500, 500], [-30, 30]);
-  const reverseX = useTransform(mouseX, [-500, 500], [30, -30]);
-  const reverseY = useTransform(mouseY, [-500, 500], [30, -30]);
+  const moveX = useTransform(mouseX, [-500, 500], [-25, 25]);
+  const moveY = useTransform(mouseY, [-500, 500], [-25, 25]);
+  const reverseX = useTransform(mouseX, [-500, 500], [25, -25]);
+  const reverseY = useTransform(mouseY, [-500, 500], [25, -25]);
 
   useEffect(() => {
-    // Initial welcome celebration burst
-    confetti({
-      particleCount: 45,
-      spread: 80,
-      origin: { y: 0.6 },
-      colors: ['#006699', '#6A2874', '#FFC72C']
-    });
-
-    // Track mouse coordinates relative to window center
     const handleMouseMove = (e: MouseEvent) => {
       const centerX = window.innerWidth / 2;
       const centerY = window.innerHeight / 2;
@@ -40,222 +28,217 @@ export default function AlumniRSVPPage() {
   }, [mouseX, mouseY]);
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-[#F3EEF8] via-[#E8DEF2] to-[#F3EEF8] text-[#1A1A1A] font-sans flex flex-col justify-between overflow-hidden relative selection:bg-[#6A2874] selection:text-white">
+    <div className="min-h-screen bg-[radial-gradient(circle_at_50%_20%,_#3B1B63_0%,_#180B2B_70%,_#0D051A_100%)] text-white font-sans flex flex-col justify-between overflow-hidden relative selection:bg-[#6A2874] selection:text-white">
       
-      {/* ================= BACKGROUND SPACE & ENGINEERING ANIMATIONS ================= */}
-      <div className="absolute inset-0 pointer-events-none opacity-25 overflow-hidden">
+      {/* ================= GRAINY SVG NOISE OVERLAY ================= */}
+      <div 
+        className="absolute inset-0 pointer-events-none z-0 opacity-20 mix-blend-overlay"
+        style={{
+          backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")`
+        }}
+      />
+
+      {/* ================= DYNAMIC COSMIC BACKGROUND ANIMATIONS ================= */}
+      <div className="absolute inset-0 pointer-events-none overflow-hidden z-0">
         
-        {/* CONTINUOUS ORBITING ROCKET 1 (Loops around the screen) */}
-        <motion.div
-          animate={{
-            x: ['-10vw', '110vw', '110vw', '-10vw'],
-            y: ['10vh', '80vh', '-10vh', '10vh'],
-            rotate: [45, 135, 225, 45],
-          }}
-          transition={{
-            duration: 25,
-            repeat: Infinity,
-            ease: "linear",
-          }}
-          className="absolute top-0 left-0"
+        {/* Ambient Purple Nebulae */}
+        <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-[#6A2874]/30 rounded-full blur-[140px]" />
+        <div className="absolute bottom-10 right-10 w-[400px] h-[400px] bg-[#006699]/20 rounded-full blur-[120px]" />
+
+        {/* Twinkling Stars */}
+        {[...Array(18)].map((_, i) => (
+          <motion.div
+            key={i}
+            animate={{ opacity: [0.2, 1, 0.2], scale: [0.7, 1.3, 0.7] }}
+            transition={{ duration: 2 + (i % 3), repeat: Infinity, ease: "easeInOut", delay: i * 0.2 }}
+            style={{
+              top: `${(i * 17) % 92}%`,
+              left: `${(i * 23) % 96}%`,
+            }}
+            className="absolute text-purple-200 font-bold"
+          >
+            ✦
+          </motion.div>
+        ))}
+
+        {/* Floating Moon */}
+        <motion.div 
+          style={{ x: reverseX, y: reverseY }}
+          animate={{ rotate: [-4, 4, -4] }}
+          transition={{ duration: 9, repeat: Infinity, ease: "easeInOut" }}
+          className="absolute top-10 right-6 sm:right-16 opacity-40"
         >
-          <svg className="w-16 h-16 sm:w-20 sm:h-20 text-[#6A2874]" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" d="M15.59 14.37a6 6 0 01-5.84 7.38v-4.8m5.84-2.58a14.98 14.98 0 006.16-12.12A14.98 14.98 0 009.631 8.41m5.96 5.96a14.926 14.926 0 01-5.841 2.58m-.119-8.54a6 6 0 00-7.381 5.84h4.8m2.581-5.84a14.927 14.927 0 00-2.58 5.84m2.58-5.84l2.58 2.58" />
+          <svg className="w-20 h-20 sm:w-28 sm:h-28 text-purple-200" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
           </svg>
         </motion.div>
 
-        {/* ORBITING ROCKET 2 (Opposite direction loop) */}
+        {/* Orbiting Space Station */}
+        <motion.div 
+          style={{ x: moveX, y: moveY }}
+          animate={{ y: [0, -12, 0], rotate: [-2, 2, -2] }}
+          transition={{ duration: 7, repeat: Infinity, ease: "easeInOut" }}
+          className="absolute top-12 left-6 sm:left-16 opacity-30"
+        >
+          <svg className="w-20 h-20 sm:w-28 sm:h-28 text-purple-300" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" d="M19 11H5m14 0a2 2 0 012 2v2a2 2 0 01-2 2H5a2 2 0 01-2-2v-2a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+          </svg>
+        </motion.div>
+
+        {/* ROAMING ROCKET 1 (Floating diagonally across the bottom left) */}
         <motion.div
           animate={{
-            x: ['105vw', '-15vw'],
-            y: ['70vh', '15vh'],
-            rotate: [-45, -45],
+            x: ['-10vw', '110vw'],
+            y: ['80vh', '20vh'],
+            rotate: [-30, -35, -25]
           }}
           transition={{
             duration: 18,
             repeat: Infinity,
             ease: "linear",
-            delay: 4,
+            delay: 0
           }}
-          className="absolute top-0 left-0"
+          className="absolute z-10 pointer-events-none opacity-80"
         >
-          <svg className="w-12 h-12 sm:w-16 sm:h-16 text-[#006699]" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" d="M15.59 14.37a6 6 0 01-5.84 7.38v-4.8m5.84-2.58a14.98 14.98 0 006.16-12.12A14.98 14.98 0 009.631 8.41m5.96 5.96a14.926 14.926 0 01-5.841 2.58m-.119-8.54a6 6 0 00-7.381 5.84h4.8m2.581-5.84a14.927 14.927 0 00-2.58 5.84m2.58-5.84l2.58 2.58" />
-          </svg>
+          <div className="relative">
+            <svg className="w-16 h-16 sm:w-20 sm:h-20 text-purple-300 drop-shadow-[0_0_12px_rgba(168,85,247,0.7)]" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M13.13 2.21a1 1 0 0 0-1.26 0C8.5 4.81 6 9.5 6 14c0 1.93.58 3.5 1.5 4.75l-2.2 2.2a1 1 0 0 0 1.41 1.41l2.84-2.84c.78.3 1.61.48 2.45.48s1.67-.18 2.45-.48l2.84 2.84a1 1 0 0 0 1.41-1.41l-2.2-2.2c.92-1.25 1.5-2.82 1.5-4.75 0-4.5-2.5-9.19-5.87-11.79zM12 15a2 2 0 1 1 0-4 2 2 0 0 1 0 4z"/>
+            </svg>
+            <motion.div 
+              animate={{ scale: [0.8, 1.4, 0.8] }}
+              transition={{ duration: 0.3, repeat: Infinity }}
+              className="absolute -bottom-4 left-4 w-6 h-10 bg-gradient-to-b from-yellow-300 via-orange-400 to-transparent rounded-full blur-xs -z-10"
+            />
+          </div>
         </motion.div>
 
-        {/* MOON DOODLE (Top Right) */}
-        <motion.div 
-          style={{ x: reverseX, y: reverseY }}
-          animate={{ rotate: [-5, 5, -5] }}
-          transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
-          className="absolute top-8 right-6 sm:right-16"
+        {/* ROAMING ROCKET 2 (Drifting horizontally across the top right) */}
+        <motion.div
+          animate={{
+            x: ['110vw', '-10vw'],
+            y: ['15vh', '45vh'],
+            rotate: [120, 130, 125]
+          }}
+          transition={{
+            duration: 24,
+            repeat: Infinity,
+            ease: "linear",
+            delay: 6
+          }}
+          className="absolute z-10 pointer-events-none opacity-60"
         >
-          <svg className="w-20 h-20 sm:w-28 sm:h-28 text-[#6A2874]" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
-          </svg>
-        </motion.div>
-
-        {/* SPACE STATION DOODLE (Top Left) */}
-        <motion.div 
-          style={{ x: moveX, y: moveY }}
-          animate={{ y: [0, -12, 0], rotate: [-3, 3, -3] }}
-          transition={{ duration: 7, repeat: Infinity, ease: "easeInOut" }}
-          className="absolute top-12 left-6 sm:left-16"
-        >
-          <svg className="w-20 h-20 sm:w-28 sm:h-28 text-[#006699]" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" d="M19 11H5m14 0a2 2 0 012 2v2a2 2 0 01-2 2H5a2 2 0 01-2-2v-2a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
-          </svg>
-        </motion.div>
-
-        {/* WIE GEAR / CIRCUIT DOODLE (Mid Left) */}
-        <motion.div 
-          style={{ x: reverseX, y: moveY }}
-          animate={{ rotate: 360 }}
-          transition={{ duration: 25, repeat: Infinity, ease: "linear" }}
-          className="absolute top-1/3 left-8 sm:left-12"
-        >
-          <svg className="w-20 h-20 sm:w-24 sm:h-24 text-[#006699]" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
-          </svg>
-        </motion.div>
-
-        {/* ATOM / PHYSICS DOODLE (Mid Right) */}
-        <motion.div 
-          style={{ x: moveX, y: reverseY }}
-          animate={{ rotate: -360 }}
-          transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-          className="absolute top-1/2 right-8 sm:right-16"
-        >
-          <svg className="w-18 h-18 sm:w-24 sm:h-24 text-[#6A2874]" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" d="M12 21c4.97 0 9-4.03 9-9s-4.03-9-9-9-9 4.03-9 9 4.03 9 9 9z" />
-            <path strokeLinecap="round" strokeLinejoin="round" d="M4.93 4.93c4.97 4.97 12.07 1.93 14.14 0s4.97 12.07 0 14.14-12.07 1.93-14.14 0-4.97-12.07 0-14.14z" />
-          </svg>
-        </motion.div>
-
-        {/* TWINKLING STARS DOODLE (Bottom Left & Right) */}
-        <motion.div 
-          animate={{ scale: [0.8, 1.2, 0.8], opacity: [0.3, 0.8, 0.3] }}
-          transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
-          className="absolute bottom-20 left-10 sm:left-20"
-        >
-          <svg className="w-14 h-14 text-[#6A2874]" fill="currentColor" viewBox="0 0 24 24">
-            <path d="M12 2l2.4 7.2h7.6l-6 4.8 2.4 7.2-6-4.8-6 4.8 2.4-7.2-6-4.8h7.6z" />
-          </svg>
-        </motion.div>
-
-        <motion.div 
-          animate={{ scale: [1.2, 0.8, 1.2], opacity: [0.8, 0.3, 0.8] }}
-          transition={{ duration: 3.5, repeat: Infinity, ease: "easeInOut" }}
-          className="absolute bottom-16 right-10 sm:right-24"
-        >
-          <svg className="w-16 h-16 text-[#006699]" fill="currentColor" viewBox="0 0 24 24">
-            <path d="M12 2l2.4 7.2h7.6l-6 4.8 2.4 7.2-6-4.8-6 4.8 2.4-7.2-6-4.8h7.6z" />
-          </svg>
+          <div className="relative">
+            <svg className="w-14 h-14 sm:w-16 sm:h-16 text-cyan-300 drop-shadow-[0_0_10px_rgba(6,182,212,0.6)]" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M13.13 2.21a1 1 0 0 0-1.26 0C8.5 4.81 6 9.5 6 14c0 1.93.58 3.5 1.5 4.75l-2.2 2.2a1 1 0 0 0 1.41 1.41l2.84-2.84c.78.3 1.61.48 2.45.48s1.67-.18 2.45-.48l2.84 2.84a1 1 0 0 0 1.41-1.41l-2.2-2.2c.92-1.25 1.5-2.82 1.5-4.75 0-4.5-2.5-9.19-5.87-11.79zM12 15a2 2 0 1 1 0-4 2 2 0 0 1 0 4z"/>
+            </svg>
+            <motion.div 
+              animate={{ scale: [0.8, 1.3, 0.8] }}
+              transition={{ duration: 0.3, repeat: Infinity }}
+              className="absolute -bottom-3 left-3 w-5 h-8 bg-gradient-to-b from-cyan-300 via-blue-500 to-transparent rounded-full blur-xs -z-10"
+            />
+          </div>
         </motion.div>
 
       </div>
 
-      {/* ================= MAIN CONTENT CONTAINER ================= */}
-      <main className="flex-1 max-w-4xl mx-auto w-full px-4 sm:px-6 py-8 sm:py-12 flex flex-col justify-center items-center relative z-10">
+      {/* ================= MAIN CONTENT ================= */}
+      <main className="flex-1 max-w-5xl mx-auto w-full px-4 sm:px-6 py-12 flex flex-col justify-center items-center relative z-10">
         
-        {/* Animated Header Section */}
-        <motion.div 
-          initial={{ opacity: 0, y: -25 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, type: "spring", stiffness: 120 }}
-          className="text-center mb-6 flex flex-col items-center"
-        >
-          {/* Logo with Interactive Hover Pop */}
+        {/* Header Section */}
+        <div className="text-center mb-8 flex flex-col items-center">
           <motion.div 
-            whileHover={{ scale: 1.12, rotate: 4 }}
-            whileTap={{ scale: 0.92 }}
-            className="relative w-20 h-20 sm:w-24 sm:h-24 mb-3 bg-white p-2 rounded-2xl border-3 border-black shadow-[5px_5px_0px_0px_rgba(0,0,0,1)] cursor-pointer"
+            whileHover={{ scale: 1.1, rotate: 4 }} 
+            className="relative w-24 h-24 mb-3 bg-white p-2 rounded-2xl border-3 border-black shadow-[5px_5px_0px_0px_rgba(0,0,0,1)] cursor-pointer"
           >
-            <Image 
-              src="/wie-logo.png" 
-              alt="IEEE NSU SB WIE AG Logo" 
-              fill 
-              className="object-contain p-1"
-              priority
-            />
+            <Image src="/wie-logo.png" alt="IEEE NSU SB WIE AG Logo" fill className="object-contain p-1" priority />
           </motion.div>
 
-          {/* Badge */}
-          <motion.span 
-            animate={{ rotate: [-1.5, 1.5, -1.5] }}
-            transition={{ duration: 3.5, repeat: Infinity, ease: "easeInOut" }}
-            className="bg-[#6A2874] text-white text-[11px] sm:text-xs font-black px-4 py-1.5 uppercase tracking-widest rounded-full border-2 border-black mb-3 inline-block shadow-[3px_3px_0px_0px_rgba(0,0,0,1)]"
-          >
-            Alumni Confirmation Portal
-          </motion.span>
+          <span className="bg-[#6A2874] text-white text-xs font-black px-4 py-1.5 uppercase tracking-widest rounded-full border-2 border-black mb-3 inline-block shadow-[3px_3px_0px_0px_rgba(0,0,0,1)]">
+            IEEE NSU SB WIE Affinity Group
+          </span>
           
-          {/* Main Title */}
-          <h1 className="text-3xl sm:text-5xl font-black text-[#006699] tracking-wider leading-none uppercase drop-shadow-[2px_2px_0px_rgba(255,255,255,1)]">
-            WELCOME ALUMNI!
+          <h1 className="text-4xl sm:text-6xl font-black tracking-wider leading-none uppercase text-purple-200 drop-shadow-[0_0_12px_rgba(232,222,242,0.6)]">
+            SUCCESSION 2026
           </h1>
           
-          <p className="text-black font-extrabold text-xs sm:text-base mt-2 max-w-xl mx-auto leading-snug">
-            IEEE NSU SB WIE Affinity Group Succession Ceremony 2025
+          <p className="font-extrabold text-sm sm:text-lg mt-3 max-w-2xl mx-auto leading-snug text-purple-100">
+            Celebrating Leadership Transitions, Honoring Alumni Legacy & Inspiring Future Engineers
           </p>
-        </motion.div>
+        </div>
 
-        {/* Animated Main Card */}
-        <motion.div 
-          initial={{ opacity: 0, scale: 0.92 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.5, delay: 0.15 }}
-          className="w-full max-w-2xl bg-white border-4 border-black rounded-3xl p-4 sm:p-6 shadow-[10px_10px_0px_0px_rgba(106,40,116,1)] flex flex-col items-center"
-        >
+        {/* Event Quick Info Banner */}
+        <div className="grid grid-cols-3 gap-3 w-full max-w-xl mb-8">
+          <div className="bg-white text-black border-3 border-black rounded-2xl p-3 text-center shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
+            <span className="block text-[10px] font-black uppercase text-[#6A2874]">Date</span>
+            <span className="font-black text-xs sm:text-sm">15 Feb 2025</span>
+          </div>
+          <div className="bg-white text-black border-3 border-black rounded-2xl p-3 text-center shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
+            <span className="block text-[10px] font-black uppercase text-[#6A2874]">Time</span>
+            <span className="font-black text-xs sm:text-sm">3:00 PM</span>
+          </div>
+          <div className="bg-white text-black border-3 border-black rounded-2xl p-3 text-center shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
+            <span className="block text-[10px] font-black uppercase text-[#6A2874]">Venue</span>
+            <span className="font-black text-xs sm:text-sm leading-tight block">Beansprout</span>
+          </div>
+        </div>
+
+        {/* Action Cards: Alumni vs General Members */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 w-full max-w-3xl">
           
-          {/* Event Details Grid with Spring Hovers */}
-          <div className="grid grid-cols-3 gap-2 sm:gap-3 w-full mb-4">
+          {/* Alumni Registration Card */}
+          <motion.div 
+            whileHover={{ translateY: -4 }}
+            className="bg-white text-[#1A1A1A] border-4 border-black rounded-3xl p-6 shadow-[8px_8px_0px_0px_rgba(106,40,116,1)] flex flex-col justify-between text-left"
+          >
+            <div>
+              <span className="bg-purple-100 text-[#6A2874] text-[10px] font-black px-3 py-1 uppercase rounded-full border border-black inline-block mb-3">
+                For Alumni
+              </span>
+              <h2 className="text-xl font-black text-[#6A2874] uppercase mb-2">Alumni RSVP Confirmation</h2>
+              <p className="text-xs font-extrabold text-gray-700 leading-relaxed mb-6">
+                Are you a former executive panelist, advisor, or mentor of IEEE NSU SB WIE AG? Please confirm your presence for our succession ceremony.
+              </p>
+            </div>
             
-            <motion.div 
-              whileHover={{ scale: 1.06, translateY: -3 }}
-              className="bg-[#FAF8FC] border-2 border-black rounded-xl p-2 sm:p-3 text-center shadow-[3px_3px_0px_0px_rgba(0,0,0,1)]"
+            <Link 
+              href="/register" 
+              className="w-full py-3.5 bg-[#6A2874] hover:bg-[#006699] text-white font-black text-xs uppercase tracking-wider rounded-xl border-3 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-none hover:translate-x-1 hover:translate-y-1 transition-all block text-center"
             >
-              <span className="block text-[9px] sm:text-[10px] font-black uppercase text-[#6A2874]">Date</span>
-              <span className="font-black text-xs sm:text-sm text-black">15 Feb 2025</span>
-            </motion.div>
+              Confirm Alumni RSVP →
+            </Link>
+          </motion.div>
 
-            <motion.div 
-              whileHover={{ scale: 1.06, translateY: -3 }}
-              className="bg-[#FAF8FC] border-2 border-black rounded-xl p-2 sm:p-3 text-center shadow-[3px_3px_0px_0px_rgba(0,0,0,1)]"
+          {/* General Members Card */}
+          <motion.div 
+            whileHover={{ translateY: -4 }}
+            className="bg-white text-[#1A1A1A] border-4 border-black rounded-3xl p-6 shadow-[8px_8px_0px_0px_rgba(0,102,153,1)] flex flex-col justify-between text-left"
+          >
+            <div>
+              <span className="bg-blue-100 text-[#006699] text-[10px] font-black px-3 py-1 uppercase rounded-full border border-black inline-block mb-3">
+                For General Members
+              </span>
+              <h2 className="text-xl font-black text-[#006699] uppercase mb-2">General Registration</h2>
+              <p className="text-xs font-extrabold text-gray-700 leading-relaxed mb-6">
+                Join us to witness the grand panel handover, interact with our alumni network, and celebrate our group&apos;s achievements.
+              </p>
+            </div>
+
+            <Link 
+              href="/register" 
+              className="w-full py-3.5 bg-[#006699] hover:bg-[#6A2874] text-white font-black text-xs uppercase tracking-wider rounded-xl border-3 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-none hover:translate-x-1 hover:translate-y-1 transition-all block text-center"
             >
-              <span className="block text-[9px] sm:text-[10px] font-black uppercase text-[#6A2874]">Time</span>
-              <span className="font-black text-xs sm:text-sm text-black">3:00 PM</span>
-            </motion.div>
+              Member Registration →
+            </Link>
+          </motion.div>
 
-            <motion.div 
-              whileHover={{ scale: 1.06, translateY: -3 }}
-              className="bg-[#FAF8FC] border-2 border-black rounded-xl p-2 sm:p-3 text-center shadow-[3px_3px_0px_0px_rgba(0,0,0,1)]"
-            >
-              <span className="block text-[9px] sm:text-[10px] font-black uppercase text-[#6A2874]">Venue</span>
-              <span className="font-black text-[10px] sm:text-xs text-black leading-tight block mt-0.5">Beansprout, Bashundhara</span>
-            </motion.div>
-
-          </div>
-
-          {/* Embedded Google Form Wrapper */}
-          <div className="w-full bg-[#FAF8FC] border-3 border-black rounded-2xl overflow-hidden shadow-[5px_5px_0px_0px_rgba(0,0,0,1)] relative">
-            <iframe 
-              src={GOOGLE_FORM_EMBED_URL}
-              className="w-full h-[650px] sm:h-[720px] border-none"
-              title="IEEE NSU SB WIE AG Alumni Confirmation Form"
-            >
-              Loading form...
-            </iframe>
-          </div>
-
-        </motion.div>
+        </div>
 
       </main>
 
       {/* Footer */}
-      <footer className="w-full py-4 px-6 text-center relative z-10">
-        <p className="text-xs font-extrabold text-[#6A2874] uppercase tracking-wider">
-          © 2025 IEEE NSU SB WIE AG. All Rights Reserved.
+      <footer className="w-full py-4 px-6 text-center relative z-10 max-w-5xl mx-auto">
+        <p className="text-xs font-extrabold uppercase tracking-wider text-purple-200">
+          © 2026 IEEE NSU SB WIE AG. All Rights Reserved.
         </p>
       </footer>
 
