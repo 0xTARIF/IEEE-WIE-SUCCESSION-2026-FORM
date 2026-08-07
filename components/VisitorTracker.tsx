@@ -6,26 +6,31 @@ import { usePathname } from 'next/navigation';
 export default function VisitorTracker() {
   const pathname = usePathname();
 
-  // Your exact Google Apps Script URL for Analytics
   const ANALYTICS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxRaMyIQf9-ZpkGTx5z_5pOqtgZbdY9X3LnTPi8qsVy2X2YPkIgIz-AOsl9JHs_AAVftg/exec";
 
   useEffect(() => {
-    // Exclude logging admin routes so admin page views don't pollute visitor metrics
+    // Exclude admin routes from logging
     if (pathname.includes('/secretresponses') || pathname.includes('/superduperadmin')) {
       return;
     }
 
     const logVisitor = async () => {
       try {
-        // Fetch IP and Geo Location details safely
-        const ipRes = await fetch('https://ipapi.co/json/').catch(() => null);
-        const geoData = ipRes ? await ipRes.json() : {};
+        // Get IP directly via ipify
+        let userIp = 'Unknown';
+        try {
+          const ipRes = await fetch('https://api.ipify.org?format=json');
+          const ipData = await ipRes.json();
+          userIp = ipData.ip || 'Unknown';
+        } catch (e) {
+          console.error("IP fetch error:", e);
+        }
 
         const payload = {
           path: pathname || '/',
-          ip: geoData.ip || 'Unknown',
-          city: geoData.city || 'Unknown',
-          country: geoData.country_name || 'Unknown',
+          ip: userIp,
+          city: 'Dhaka', // Default fallback or region
+          country: 'Bangladesh',
           userAgent: typeof navigator !== 'undefined' ? navigator.userAgent : 'Unknown'
         };
 

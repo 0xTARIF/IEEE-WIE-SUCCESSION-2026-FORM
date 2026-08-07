@@ -257,9 +257,6 @@ export default function LandingPage() {
         <p className="text-xs font-extrabold uppercase tracking-wider text-gray-700">
           © 2026 IEEE NSU SB WIE AG. All Rights Reserved.
         </p>
-        <p className="text-[11px] font-black uppercase tracking-widest text-[#6A2874] bg-white/80 px-4 py-1.5 rounded-full border-2 border-black shadow-[3px_3px_0px_0px_rgba(0,0,0,1)]">
-          Maintained by <span className="text-[#006699] font-black">IEEE NSU STUDENT BRANCH WEBSITE DEVELOPMENT TEAM</span>
-        </p>
       </footer>
 
     </div>

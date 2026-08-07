@@ -22,31 +22,36 @@ export default function SuperDuperAdminPage() {
 
   const SUPER_ADMIN_PASSWORD = "AmaRNaaM1";
 
-  // Exact Google Apps Script URL for Analytics
   const ANALYTICS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxRaMyIQf9-ZpkGTx5z_5pOqtgZbdY9X3LnTPi8qsVy2X2YPkIgIz-AOsl9JHs_AAVftg/exec";
 
-  const fetchAnalytics = useCallback(async () => {
-    setLoading(true);
+  const fetchAnalytics = useCallback(async (isSilent = false) => {
+    if (!isSilent) setLoading(true);
     try {
       const res = await fetch(`${ANALYTICS_SCRIPT_URL}?t=${Date.now()}`);
       const data = await res.json();
 
       if (Array.isArray(data)) {
-        setLogs(data.reverse()); // Show newest visits first
+        setLogs(data.reverse()); // Newest first
       } else {
         setLogs([]);
       }
     } catch (err) {
       console.error("Analytics fetch error:", err);
-      setLogs([]);
     } finally {
-      setLoading(false);
+      if (!isSilent) setLoading(false);
     }
   }, [ANALYTICS_SCRIPT_URL]);
 
+  // LIVE AUTO-REFRESH POLLING (EVERY 5 SECONDS)
   useEffect(() => {
     if (isAuthenticated) {
-      fetchAnalytics();
+      fetchAnalytics(); // Initial fetch
+
+      const interval = setInterval(() => {
+        fetchAnalytics(true); // Silent update every 5 seconds
+      }, 5000);
+
+      return () => clearInterval(interval);
     }
   }, [isAuthenticated, fetchAnalytics]);
 
@@ -60,7 +65,6 @@ export default function SuperDuperAdminPage() {
     }
   };
 
-  // Export full logs directly to Excel (.csv)
   const exportToCSV = () => {
     if (logs.length === 0) return;
 
@@ -82,7 +86,6 @@ export default function SuperDuperAdminPage() {
     document.body.removeChild(link);
   };
 
-  // Calculate Metrics
   const totalVisits = logs.length;
   const uniqueIPs = Array.from(new Set(logs.map(l => l.ip))).length;
 
@@ -131,9 +134,16 @@ export default function SuperDuperAdminPage() {
             <Link href="/" className="text-xs font-black text-[#6A2874] hover:underline block mb-1">
               ← Main Website
             </Link>
-            <h1 className="text-2xl sm:text-3xl font-black text-[#6A2874] uppercase leading-tight">
-              SUPER ADMIN VISITOR ANALYTICS
-            </h1>
+            <div className="flex items-center gap-2">
+              <h1 className="text-2xl sm:text-3xl font-black text-[#6A2874] uppercase leading-tight">
+                VISITOR ANALYTICS
+              </h1>
+              {/* LIVE INDICATOR BADGE */}
+              <span className="inline-flex items-center gap-1.5 px-2.5 py-1 bg-red-100 text-red-700 font-black text-[10px] uppercase rounded-full border border-red-500 animate-pulse">
+                <span className="w-2 h-2 rounded-full bg-red-600"></span>
+                LIVE
+              </span>
+            </div>
           </div>
           
           <div className="flex gap-2">
@@ -145,11 +155,11 @@ export default function SuperDuperAdminPage() {
               📥 Export Excel (.CSV)
             </button>
             <button 
-              onClick={fetchAnalytics}
+              onClick={() => fetchAnalytics(false)}
               disabled={loading}
               className="px-4 py-2.5 bg-[#6A2874] hover:bg-[#006699] text-white font-black text-xs uppercase rounded-xl border-2 border-black shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] cursor-pointer transition-all disabled:opacity-50"
             >
-              {loading ? 'Refreshing...' : '🔄 Refresh Data'}
+              {loading ? 'Refreshing...' : '🔄 Sync Now'}
             </button>
           </div>
         </div>
@@ -180,10 +190,10 @@ export default function SuperDuperAdminPage() {
           </div>
         </div>
 
-        {/* IP & LOCATION LOGS TABLE */}
-        {loading ? (
+        {/* LOGS TABLE */}
+        {loading && logs.length === 0 ? (
           <div className="bg-white border-3 border-black rounded-2xl p-8 text-center font-bold text-gray-500 shadow-[6px_6px_0px_0px_rgba(0,0,0,1)]">
-            Fetching visitor logs from Google Sheets...
+            Loading real-time visitor logs...
           </div>
         ) : logs.length === 0 ? (
           <div className="bg-white border-3 border-black rounded-2xl p-8 text-center font-bold text-gray-500 shadow-[6px_6px_0px_0px_rgba(0,0,0,1)]">
