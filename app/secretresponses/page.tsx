@@ -129,7 +129,7 @@ export default function SecretResponsesPage() {
               ← Main Website
             </Link>
             <h1 className="text-2xl sm:text-3xl font-black text-[#006699] uppercase leading-tight">
-              {activeTab === 'guests' ? 'Guest / Alumni Responses' : 'General Member Responses'} ({currentCount})
+              {activeTab === 'guests' ? 'Guest Responses' : 'General Member Responses'} ({currentCount})
             </h1>
           </div>
           <button 
@@ -151,7 +151,7 @@ export default function SecretResponsesPage() {
                 : 'bg-white text-black hover:bg-purple-50 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]'
             }`}
           >
-            Guests / Alumni
+            Guests
           </button>
 
           <button
@@ -169,7 +169,7 @@ export default function SecretResponsesPage() {
         {/* Data Container */}
         {loading ? (
           <div className="bg-white border-3 border-black rounded-2xl p-8 text-center font-bold text-gray-500 shadow-[6px_6px_0px_0px_rgba(0,0,0,1)]">
-            Fetching {activeTab === 'guests' ? 'Guest / Alumni' : 'General Member'} responses...
+            Fetching {activeTab === 'guests' ? 'Guest' : 'General Member'} responses...
           </div>
         ) : currentCount === 0 ? (
           <div className="bg-white border-3 border-black rounded-2xl p-8 text-center font-bold text-gray-500 shadow-[6px_6px_0px_0px_rgba(0,0,0,1)]">

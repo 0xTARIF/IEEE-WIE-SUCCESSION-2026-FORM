@@ -37,7 +37,7 @@ export default function GuestRegisterPage() {
 
   const [status, setStatus] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle');
 
-  // Guest / Alumni Google Apps Script URL
+  // Guest Google Apps Script URL
   const GUESTS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwMJPX36eSIjD45mdFpmjhipx-76bE-dLBnC-vOD5fE69sL1leLKZAjDK1SzXgV95IL/exec";
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -119,7 +119,7 @@ export default function GuestRegisterPage() {
             <div className="text-5xl mb-4">🎉</div>
             <h2 className="text-2xl font-black text-[#6A2874] uppercase mb-2">Thanks for confirming!</h2>
             <p className="text-sm font-bold text-gray-700 mb-6 leading-relaxed">
-              We look forward to welcoming you to the IEEE NSU SB WIE AG Succession Ceremony at Beansprout.
+              We look forward to welcoming you to the IEEE NSU SB WIE AG Succession Ceremony at Bosco Cafe and Bistro.
             </p>
             <button 
               onClick={() => router.push('/')}
@@ -133,10 +133,10 @@ export default function GuestRegisterPage() {
             
             <div className="text-center mb-6">
               <span className="bg-[#6A2874] text-white text-[10px] font-black px-3 py-1 uppercase tracking-widest rounded-full border border-black inline-block mb-2 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]">
-                Alumni / Guest RSVP
+                Guest RSVP
               </span>
               <h1 className="text-2xl sm:text-3xl font-black text-[#006699] uppercase tracking-wide">
-                ALUMNI CONFIRMATION
+                GUEST CONFIRMATION
               </h1>
             </div>
 

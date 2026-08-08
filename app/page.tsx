@@ -179,7 +179,7 @@ export default function LandingPage() {
           </h1>
           
           <p className="font-extrabold text-sm sm:text-lg mt-3 max-w-2xl mx-auto leading-snug text-gray-800">
-            Celebrating Leadership Transitions, Honoring Alumni Legacy & Inspiring Future Engineers
+            Celebrating Leadership Transitions, Honoring Guest Legacy & Inspiring Future Engineers
           </p>
         </div>
 
@@ -187,41 +187,41 @@ export default function LandingPage() {
         <div className="grid grid-cols-3 gap-3 w-full max-w-xl mb-8">
           <div className="bg-white text-black border-3 border-black rounded-2xl p-3 text-center shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
             <span className="block text-[10px] font-black uppercase text-[#6A2874]">Date</span>
-            <span className="font-black text-xs sm:text-sm">15 Feb 2025</span>
+            <span className="font-black text-xs sm:text-sm">18th Aug 2026</span>
           </div>
           <div className="bg-white text-black border-3 border-black rounded-2xl p-3 text-center shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
             <span className="block text-[10px] font-black uppercase text-[#6A2874]">Time</span>
-            <span className="font-black text-xs sm:text-sm">3:00 PM</span>
+            <span className="font-black text-xs sm:text-sm">2:00 PM</span>
           </div>
           <div className="bg-white text-black border-3 border-black rounded-2xl p-3 text-center shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
             <span className="block text-[10px] font-black uppercase text-[#6A2874]">Venue</span>
-            <span className="font-black text-xs sm:text-sm leading-tight block">Beansprout</span>
+            <span className="font-black text-xs sm:text-sm leading-tight block">Bosco Cafe and Bistro</span>
           </div>
         </div>
 
-        {/* Action Cards: Alumni vs General Members */}
+        {/* Action Cards: Guests vs General Members */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 w-full max-w-3xl">
           
-          {/* Alumni Registration Card */}
+          {/* Guest Registration Card */}
           <motion.div 
             whileHover={{ translateY: -4 }}
             className="bg-white text-[#1A1A1A] border-4 border-black rounded-3xl p-6 shadow-[8px_8px_0px_0px_rgba(106,40,116,1)] flex flex-col justify-between text-left"
           >
             <div>
               <span className="bg-purple-100 text-[#6A2874] text-[10px] font-black px-3 py-1 uppercase rounded-full border border-black inline-block mb-3">
-                For Alumni
+                For Guests
               </span>
-              <h2 className="text-xl font-black text-[#6A2874] uppercase mb-2">Alumni RSVP Confirmation</h2>
+              <h2 className="text-xl font-black text-[#6A2874] uppercase mb-2">Guest RSVP Confirmation</h2>
               <p className="text-xs font-extrabold text-gray-700 leading-relaxed mb-6">
-                Are you a former executive panelist, advisor, or mentor of IEEE NSU SB WIE AG? Please confirm your presence for our succession ceremony.
+                Are you a former executive panelist, advisor, or Branch excom of IEEE NSU SB WIE AG? Please confirm your presence for our succession ceremony.
               </p>
             </div>
             
             <Link 
-              href="/alumni" 
+              href="/guests"
               className="w-full py-3.5 bg-[#6A2874] hover:bg-[#006699] text-white font-black text-xs uppercase tracking-wider rounded-xl border-3 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-none hover:translate-x-1 hover:translate-y-1 transition-all block text-center"
             >
-              Confirm Alumni RSVP →
+              Confirm Guest RSVP →
             </Link>
           </motion.div>
 
@@ -236,7 +236,7 @@ export default function LandingPage() {
               </span>
               <h2 className="text-xl font-black text-[#006699] uppercase mb-2">General Registration</h2>
               <p className="text-xs font-extrabold text-gray-700 leading-relaxed mb-6">
-                Join us to witness the grand panel handover, interact with our alumni network, and celebrate our group&apos;s achievements.
+                Join us to witness the grand panel handover, interact with our guest network, and celebrate our group&apos;s achievements.
               </p>
             </div>
 

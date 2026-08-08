@@ -127,7 +127,7 @@ export default function RegisterPage() {
             <div className="text-5xl mb-4">🎉</div>
             <h2 className="text-2xl font-black text-[#006699] uppercase mb-2">Registration Submitted!</h2>
             <p className="text-sm font-bold text-gray-700 mb-6 leading-relaxed">
-              Thank you for registering for IEEE NSU SB WIE AG Succession 2026. We look forward to seeing you at Beansprout!
+              Thank you for registering for IEEE NSU SB WIE AG Succession 2026. We look forward to seeing you at Bosco Cafe and Bistro!
             </p>
             <button 
               onClick={() => router.push('/')}
@@ -147,8 +147,8 @@ export default function RegisterPage() {
                 IEEE NSU SB WIE AG SUCCESSION 2026
               </h1>
               <div className="mt-3 bg-purple-50 border-2 border-black rounded-xl p-3 text-left text-xs font-bold text-gray-800 space-y-1">
-                <p><span className="text-[#6A2874]">Fee:</span> 500 BDT per person</p>
-                <p><span className="text-[#6A2874]">bKash / Nagad:</span> 01684382112 (Send Money)</p>
+                <p><span className="text-[#6A2874]">Amount:</span> 700</p>
+                <p><span className="text-[#6A2874]">bKash:</span> +880 1775-397602</p>
                 <p className="text-[10px] text-gray-500 font-extrabold">* Enter your name as reference when making payment.</p>
               </div>
             </div>
@@ -248,9 +248,9 @@ export default function RegisterPage() {
               />
             </div>
 
-            {/* BKASH / NAGAD TRANSACTION ID */}
+            {/* BKASH TRANSACTION ID */}
             <div>
-              <label className="block text-xs font-black uppercase text-gray-800 mb-1">bKash / Nagad Transaction ID *</label>
+              <label className="block text-xs font-black uppercase text-gray-800 mb-1">bKash Transaction ID *</label>
               <input 
                 type="text" 
                 required
