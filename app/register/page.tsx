@@ -151,7 +151,7 @@ export default function RegisterPage() {
                 IEEE NSU SB WIE AG SUCCESSION 2026
               </h1>
               <div className="mt-3 bg-purple-50 border-2 border-black rounded-xl p-3 text-left text-xs font-bold text-gray-800 space-y-1">
-                <p><span className="text-[#6A2874]">Amount:</span> 700</p>
+                <p><span className="text-[#6A2874]">Amount:</span> 800</p>
                 <p><span className="text-[#6A2874]">bKash:</span> +880 1775-397602</p>
                 <p className="text-[10px] text-gray-500 font-extrabold">* Enter your name as reference when making payment.</p>
               </div>

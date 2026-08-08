@@ -213,7 +213,7 @@ export default function LandingPage() {
               </span>
               <h2 className="text-xl font-black text-[#6A2874] uppercase mb-2">Guest RSVP Confirmation</h2>
               <p className="text-xs font-extrabold text-gray-700 leading-relaxed mb-6">
-                Are you a former executive panelist, advisor, or Branch excom of IEEE NSU SB WIE AG? Please confirm your presence for our succession ceremony.
+                Are you a former executive panelist, advisor, or branch excom of IEEE NSU SB WIE AG? Please confirm your presence for our succession ceremony.
               </p>
             </div>
             
