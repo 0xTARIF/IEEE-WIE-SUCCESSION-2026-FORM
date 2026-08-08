@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 import Link from 'next/link';
 
 interface GuestResponse {
@@ -34,6 +34,8 @@ export default function SecretResponsesPage() {
   const [guestResponses, setGuestResponses] = useState<GuestResponse[]>([]);
   const [generalResponses, setGeneralResponses] = useState<GeneralMemberResponse[]>([]);
   const [loading, setLoading] = useState(false);
+  const requestIdRef = useRef(0);
+  const requestControllerRef = useRef<AbortController | null>(null);
 
   const ADMIN_PASSWORD = "wie2026";
 
@@ -46,34 +48,51 @@ export default function SecretResponsesPage() {
 
     if (!targetUrl) return;
 
+    const requestId = ++requestIdRef.current;
+    requestControllerRef.current?.abort();
+    const controller = new AbortController();
+    requestControllerRef.current = controller;
+
     setLoading(true);
     try {
-      const res = await fetch(`${targetUrl}?t=${Date.now()}`);
-      const data = await res.json();
+      const res = await fetch(`${targetUrl}?t=${Date.now()}`, { signal: controller.signal });
+      const response = await res.json();
+      const data = Array.isArray(response) ? response : response.data;
+
+      if (requestId !== requestIdRef.current) return;
 
       if (Array.isArray(data)) {
         if (tab === 'guests') {
-          setGuestResponses(data.reverse());
+          setGuestResponses([...data].reverse());
         } else {
-          setGeneralResponses(data.reverse());
+          setGeneralResponses([...data].reverse());
         }
       } else {
         if (tab === 'guests') setGuestResponses([]);
         else setGeneralResponses([]);
       }
     } catch (err) {
+      if (controller.signal.aborted) return;
+      if (requestId !== requestIdRef.current) return;
       console.error(`Error fetching ${tab} responses:`, err);
       if (tab === 'guests') setGuestResponses([]);
       else setGeneralResponses([]);
     } finally {
-      setLoading(false);
+      if (requestId === requestIdRef.current) setLoading(false);
     }
   }, []);
 
   useEffect(() => {
-    if (isAuthenticated) {
-      fetchResponses(activeTab);
-    }
+    if (!isAuthenticated) return;
+
+    const timer = setTimeout(() => {
+      void fetchResponses(activeTab);
+    }, 0);
+
+    return () => {
+      clearTimeout(timer);
+      requestControllerRef.current?.abort();
+    };
   }, [isAuthenticated, activeTab, fetchResponses]);
 
   const handleLogin = (e: React.FormEvent) => {

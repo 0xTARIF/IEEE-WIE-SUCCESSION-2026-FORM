@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { motion, useMotionValue, useTransform } from 'framer-motion';
@@ -40,14 +40,17 @@ export default function RegisterPage() {
   });
 
   const [status, setStatus] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle');
+  const isSubmittingRef = useRef(false);
 
   // Replace with your General Members Google Apps Script Web App URL once deployed
   const GENERAL_MEMBER_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwotCtakz5FHCMeO1KvxbcJ8rrbm9XWphJxnBATXWZ0FCG4uchGuigJt2p9Ajb-hfAl6g/exec";
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (isSubmittingRef.current) return;
     if (!formData.name.trim() || !formData.email.trim() || !formData.studentId.trim() || !formData.trxId.trim()) return;
 
+    isSubmittingRef.current = true;
     setStatus('submitting');
 
     const payload = {
@@ -81,6 +84,7 @@ export default function RegisterPage() {
       setStatus('success');
     } catch (err) {
       console.error("Submission error:", err);
+      isSubmittingRef.current = false;
       setStatus('error');
     }
   };

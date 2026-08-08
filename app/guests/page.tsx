@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { motion, useMotionValue, useTransform } from 'framer-motion';
@@ -36,20 +36,23 @@ export default function GuestRegisterPage() {
   });
 
   const [status, setStatus] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle');
+  const isSubmittingRef = useRef(false);
 
   // Guest Google Apps Script URL
   const GUESTS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwMJPX36eSIjD45mdFpmjhipx-76bE-dLBnC-vOD5fE69sL1leLKZAjDK1SzXgV95IL/exec";
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (isSubmittingRef.current) return;
     if (!formData.name.trim()) return;
 
+    isSubmittingRef.current = true;
     setStatus('submitting');
 
     const payload = {
       name: formData.name,
-      email: formData.email || 'N/A',
-      gradYear: formData.gradYear || 'N/A',
+      email: formData.email.trim(),
+      gradYear: formData.gradYear.trim(),
       attending: formData.attending,
     };
 
@@ -73,6 +76,7 @@ export default function GuestRegisterPage() {
       setStatus('success');
     } catch (err) {
       console.error("Submission error:", err);
+      isSubmittingRef.current = false;
       setStatus('error');
     }
   };

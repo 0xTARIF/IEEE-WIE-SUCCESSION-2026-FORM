@@ -14,17 +14,22 @@ export default function VisitorTracker() {
       return;
     }
 
+    const controller = new AbortController();
+
     const logVisitor = async () => {
       try {
         // Get IP directly via ipify
         let userIp = 'Unknown';
         try {
-          const ipRes = await fetch('https://api.ipify.org?format=json');
+          const ipRes = await fetch('https://api.ipify.org?format=json', { signal: controller.signal });
           const ipData = await ipRes.json();
           userIp = ipData.ip || 'Unknown';
         } catch (e) {
+          if (controller.signal.aborted) return;
           console.error("IP fetch error:", e);
         }
+
+        if (controller.signal.aborted) return;
 
         const payload = {
           path: pathname || '/',
@@ -38,14 +43,20 @@ export default function VisitorTracker() {
           method: 'POST',
           mode: 'no-cors',
           headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-          body: JSON.stringify(payload)
+          body: JSON.stringify(payload),
+          signal: controller.signal,
         });
       } catch (err) {
+        if (controller.signal.aborted) return;
         console.error("Visitor logging error:", err);
       }
     };
 
-    logVisitor();
+    const timer = window.setTimeout(logVisitor, 0);
+    return () => {
+      window.clearTimeout(timer);
+      controller.abort();
+    };
   }, [pathname]);
 
   return null;

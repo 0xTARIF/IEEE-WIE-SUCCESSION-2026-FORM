@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 import Link from 'next/link';
 
 interface VisitLog {
@@ -19,39 +19,61 @@ export default function SuperDuperAdminPage() {
   
   const [logs, setLogs] = useState<VisitLog[]>([]);
   const [loading, setLoading] = useState(false);
+  const requestIdRef = useRef(0);
+  const requestControllerRef = useRef<AbortController | null>(null);
 
   const SUPER_ADMIN_PASSWORD = "AmaRNaaM1";
 
   const ANALYTICS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxRaMyIQf9-ZpkGTx5z_5pOqtgZbdY9X3LnTPi8qsVy2X2YPkIgIz-AOsl9JHs_AAVftg/exec";
 
   const fetchAnalytics = useCallback(async (isSilent = false) => {
+    const requestId = ++requestIdRef.current;
+    requestControllerRef.current?.abort();
+    const controller = new AbortController();
+    requestControllerRef.current = controller;
+
     if (!isSilent) setLoading(true);
     try {
-      const res = await fetch(`${ANALYTICS_SCRIPT_URL}?t=${Date.now()}`);
-      const data = await res.json();
+      const res = await fetch(`${ANALYTICS_SCRIPT_URL}?t=${Date.now()}`, { signal: controller.signal });
+      const response = await res.json();
+      const data = Array.isArray(response) ? response : response.data;
+
+      if (requestId !== requestIdRef.current) return;
 
       if (Array.isArray(data)) {
-        setLogs(data.reverse()); // Newest first
+        setLogs([...data].reverse()); // Newest first
       } else {
         setLogs([]);
       }
     } catch (err) {
+      if (controller.signal.aborted) return;
       console.error("Analytics fetch error:", err);
     } finally {
-      if (!isSilent) setLoading(false);
+      if (requestId === requestIdRef.current) setLoading(false);
     }
-  }, [ANALYTICS_SCRIPT_URL]);
+  }, []);
 
   // LIVE AUTO-REFRESH POLLING (EVERY 5 SECONDS)
   useEffect(() => {
     if (isAuthenticated) {
-      fetchAnalytics(); // Initial fetch
+      let cancelled = false;
+      let timer: ReturnType<typeof setTimeout> | undefined;
 
-      const interval = setInterval(() => {
-        fetchAnalytics(true); // Silent update every 5 seconds
-      }, 5000);
+      const poll = async () => {
+        await fetchAnalytics(true);
+        if (!cancelled) timer = setTimeout(poll, 5000);
+      };
 
-      return () => clearInterval(interval);
+      void (async () => {
+        await fetchAnalytics(false);
+        if (!cancelled) timer = setTimeout(poll, 5000);
+      })();
+
+      return () => {
+        cancelled = true;
+        if (timer) clearTimeout(timer);
+        requestControllerRef.current?.abort();
+      };
     }
   }, [isAuthenticated, fetchAnalytics]);
 
