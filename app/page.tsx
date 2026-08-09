@@ -187,11 +187,11 @@ export default function LandingPage() {
         <div className="grid grid-cols-3 gap-3 w-full max-w-xl mb-8">
           <div className="bg-white text-black border-3 border-black rounded-2xl p-3 text-center shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
             <span className="block text-[10px] font-black uppercase text-[#6A2874]">Date</span>
-            <span className="font-black text-xs sm:text-sm">18th Aug 2026</span>
+            <span className="font-black text-xs sm:text-sm">14th Aug 2026</span>
           </div>
           <div className="bg-white text-black border-3 border-black rounded-2xl p-3 text-center shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
             <span className="block text-[10px] font-black uppercase text-[#6A2874]">Time</span>
-            <span className="font-black text-xs sm:text-sm">2:00 PM</span>
+            <span className="font-black text-xs sm:text-sm">2:00 PM - 5:00 PM</span>
           </div>
           <div className="bg-white text-black border-3 border-black rounded-2xl p-3 text-center shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
             <span className="block text-[10px] font-black uppercase text-[#6A2874]">Venue</span>
