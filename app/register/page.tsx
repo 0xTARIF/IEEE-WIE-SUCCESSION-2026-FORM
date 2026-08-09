@@ -43,7 +43,7 @@ export default function RegisterPage() {
   const isSubmittingRef = useRef(false);
 
   // Replace with your General Members Google Apps Script Web App URL once deployed
-  const GENERAL_MEMBER_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwotCtakz5FHCMeO1KvxbcJ8rrbm9XWphJxnBATXWZ0FCG4uchGuigJt2p9Ajb-hfAl6g/exec";
+  const GENERAL_MEMBER_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxBhpZMqkS3EdmI8rQmTbyL5sfVPbLCfUhUgPQu3brXkfAE4shkTwGltTqhycuccd8T/exec";
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();

@@ -40,8 +40,8 @@ export default function SecretResponsesPage() {
   const ADMIN_PASSWORD = "wie2026";
 
   // Exact Google Apps Script Web App URLs
-  const GUESTS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwMJPX36eSIjD45mdFpmjhipx-76bE-dLBnC-vOD5fE69sL1leLKZAjDK1SzXgV95IL/exec";
-  const GENERAL_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwotCtakz5FHCMeO1KvxbcJ8rrbm9XWphJxnBATXWZ0FCG4uchGuigJt2p9Ajb-hfAl6g/exec";
+  const GUESTS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbx4IGtCts4sEuALK3nf66vWc7pNMraMRAz86XsICJNdU8AIHCrMbXnQRyU7KEUnYcOPAw/exec";
+  const GENERAL_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxBhpZMqkS3EdmI8rQmTbyL5sfVPbLCfUhUgPQu3brXkfAE4shkTwGltTqhycuccd8T/exec";
 
   const fetchResponses = useCallback(async (tab: 'guests' | 'general') => {
     const targetUrl = tab === 'guests' ? GUESTS_SCRIPT_URL : GENERAL_SCRIPT_URL;

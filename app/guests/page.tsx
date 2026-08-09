@@ -39,7 +39,7 @@ export default function GuestRegisterPage() {
   const isSubmittingRef = useRef(false);
 
   // Guest Google Apps Script URL
-  const GUESTS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwMJPX36eSIjD45mdFpmjhipx-76bE-dLBnC-vOD5fE69sL1leLKZAjDK1SzXgV95IL/exec";
+  const GUESTS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbx4IGtCts4sEuALK3nf66vWc7pNMraMRAz86XsICJNdU8AIHCrMbXnQRyU7KEUnYcOPAw/exec";
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
