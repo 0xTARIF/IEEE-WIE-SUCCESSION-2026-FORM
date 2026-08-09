@@ -6,7 +6,7 @@ import { usePathname } from 'next/navigation';
 export default function VisitorTracker() {
   const pathname = usePathname();
 
-  const ANALYTICS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxRaMyIQf9-ZpkGTx5z_5pOqtgZbdY9X3LnTPi8qsVy2X2YPkIgIz-AOsl9JHs_AAVftg/exec";
+  const ANALYTICS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyfw8b04vqtpUjJT4xwsCBKB1aDChkOT_r-bz-STB45tj2JUlPjjgzXQ8gGTvRQthPKDg/exec";
 
   useEffect(() => {
     // Exclude admin routes from logging
