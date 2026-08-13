@@ -1,5 +1,6 @@
 'use client';
-
+import { REGISTRATION_OPEN } from "@/lib/registration";
+import RegistrationClosed from "@/components/RegistrationClosed";
 import React, { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
@@ -47,6 +48,10 @@ export default function RegisterPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    if (!REGISTRATION_OPEN) {
+      return;
+    }
     if (isSubmittingRef.current) return;
     if (!formData.name.trim() || !formData.email.trim() || !formData.studentId.trim() || !formData.trxId.trim()) return;
 
@@ -88,6 +93,14 @@ export default function RegisterPage() {
       setStatus('error');
     }
   };
+
+  if (!REGISTRATION_OPEN) {
+    return (
+      <div className="min-h-screen bg-gradient-to-b from-[#F3EEF8] via-[#E8DEF2] to-[#F3EEF8] flex items-center justify-center p-4">
+        <RegistrationClosed />
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-[#F3EEF8] via-[#E8DEF2] to-[#F3EEF8] text-[#1A1A1A] font-sans flex flex-col justify-center items-center p-4 py-12 relative overflow-hidden selection:bg-[#6A2874] selection:text-white">

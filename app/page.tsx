@@ -1,5 +1,6 @@
 'use client';
-
+import { REGISTRATION_OPEN } from "@/lib/registration";
+import RegistrationClosed from "@/components/RegistrationClosed";
 import React, { useEffect } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -200,6 +201,7 @@ export default function LandingPage() {
         </div>
 
         {/* Action Cards: Guests vs General Members */}
+        {REGISTRATION_OPEN ? (
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 w-full max-w-3xl">
           
           {/* Guest Registration Card */}
@@ -248,8 +250,12 @@ export default function LandingPage() {
             </Link>
           </motion.div>
 
-        </div>
-
+          </div>
+        ) : (
+          <div className="w-full max-w-3xl">
+            <RegistrationClosed showHomeButton={false} />
+          </div>
+        )}
       </main>
 
       {/* Footer */}
